@@ -50,7 +50,17 @@ This project is a front-end implementation of a modern, interactive e-learning p
 2. **Front-End Interactivity**: I implemented interactive features such as course filtering, progress tracking, and video embedding, ensuring the platform is engaging and functional.
 3. **User Experience (UX) Principles**: The focus was on creating a clean, easy-to-use interface with intuitive navigation, dynamic content presentation, and interactive elements to enhance the overall user experience.
 4. **React Development**: I gained hands-on experience with React, improving my understanding of state management, component-based architecture, and efficient rendering of dynamic content.
+
 ---
+### Outputs:
+
+![task4-1](https://github.com/user-attachments/assets/a9064f6f-667f-43c4-a92d-42eea2336890)
+![task4-2](https://github.com/user-attachments/assets/c1a9764d-e22a-4d56-bd55-022b50f16e03)
+![task4-3](https://github.com/user-attachments/assets/64339c9d-8b51-46f0-9922-cff921726979)
+![task4-4](https://github.com/user-attachments/assets/dac26bfe-b2be-4b19-8d36-39d2c35f7383)
+![task4-5](https://github.com/user-attachments/assets/f7a0870b-5b2e-445e-ba70-f9127abb5688)
+
+----
 ### Conclusion:
 
 This front-end project for the e-learning platform is a demonstration of modern web development practices, combining user-friendly design, interactivity, and responsiveness. It provides learners with a smooth and engaging interface that helps them navigate through courses, track their progress, and consume educational content effectively. The project serves as a solid foundation for creating a fully functional and scalable e-learning platform.
