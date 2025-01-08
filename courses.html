@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses -EduVibe</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo">EduVibe</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="courses.html">Courses</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section or Main Content Section -->
+    <section class="courses">
+        <h2>Our Courses</h2>
+        
+        <!-- Filter by Category -->
+        <div class="filters">
+            <label for="filter">Filter by Category:</label>
+            <select id="filter" onchange="filterCourses()">
+                <option value="all">All</option>
+                <option value="development">Development</option>
+                <option value="design">Design</option>
+                <option value="business">Business</option>
+            </select>
+        </div>
+
+        <!-- Course List -->
+        <div class="course-list" id="course-list">
+            <div class="course-card" data-category="development">
+                <img src="images/course1.jpg" alt="Course 1">
+                <h3>Web Development</h3>
+                <p>Learn web development from scratch</p>
+                <a href="course-detail.html?course=web-development" class="btn">Learn More</a>
+            </div>
+            <div class="course-card" data-category="design">
+                <img src="images/course2.jpg" alt="Course 2">
+                <h3>UI/UX Design</h3>
+                <p>Master the art of UI/UX design</p>
+                <a href="course-detail.html?course=ui-ux-design" class="btn">Learn More</a>
+            </div>
+            <div class="course-card" data-category="business">
+                <img src="images/course3.jpg" alt="Course 3">
+                <h3>Business Strategy</h3>
+                <p>Learn how to create successful business strategies</p>
+                <a href="course-detail.html?course=business-strategy" class="btn">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2024 EduVibe | All Rights Reserved</p>
+    </footer>
+
+    <!-- JavaScript for Filtering Courses -->
+    <script>
+        function filterCourses() {
+            const filter = document.getElementById('filter').value;
+            const courses = document.querySelectorAll('.course-card');
+            
+            courses.forEach(course => {
+                const category = course.getAttribute('data-category');
+                if (filter === 'all' || category === filter) {
+                    course.style.display = 'block'; // Show course
+                } else {
+                    course.style.display = 'none'; // Hide course
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - EduVibe</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo">EduVibe</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="courses.html">Courses</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section class="contact">
+        <h2>Contact Us</h2>
+        <form id="contactForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" required></textarea>
+
+            <button type="submit">Submit</button>
+        </form>
+        
+        <!-- Success message placeholder -->
+        <div id="successMessage" style="display: none; color: green; margin-top: 20px;">
+            <p>Your message has been submitted successfully!</p>
+        </div>
+    </section>
+    
+    <footer>
+        <p>© 2024 EduVibe | All Rights Reserved</p>
+    </footer>
+
+    <script>
+        // Function to handle form submission
+        document.getElementById('contactForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevents the form from submitting and page refresh
+
+            // Display success message
+            document.getElementById('successMessage').style.display = 'block';
+
+            // Optionally, clear the form fields
+            document.getElementById('contactForm').reset();
+        });
+    </script>
+</body>
+</html>

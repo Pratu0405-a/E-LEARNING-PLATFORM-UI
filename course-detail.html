@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Details - EduVibe</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo">EduVibe</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="courses.html">Courses</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Course Detail Section -->
+    <section class="course-detail">
+        <h2 id="course-title">Course Title</h2>
+
+        <div class="video-container">
+            <!-- YouTube embedded video with API events -->
+            <iframe id="course-video" width="560" height="315" src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        
+        <p id="course-description">Course Description will appear here...</p>
+
+        <!-- Start Course Button -->
+        <button id="start-course-btn">Start Course</button>
+    </section>
+
+    <footer>
+        <p>© 2024 EduVibe | All Rights Reserved</p>
+    </footer>
+
+    <!-- JavaScript to Handle Dynamic Course Content and Progress -->
+    <script>
+        // Get the course parameter from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const course = urlParams.get('course');
+        
+        // Define course details (title, description, and video URL)
+        const courses = {
+            'web-development': {
+                title: 'Web Development',
+                description: 'Learn web development from scratch, covering HTML, CSS, and JavaScript.',
+                videoUrl: 'https://www.youtube.com/embed/pQN-pnXPaVg' 
+            },
+            'ui-ux-design': {
+                title: 'UI/UX Design',
+                description: 'Master the art of UI/UX design with hands-on projects and design principles.',
+                videoUrl: "https://www.youtube.com/embed/c9Wg6Cb_YlU?si=DHcc85PBadZJi0So" 
+            },
+            'business-strategy': {
+                title: 'Business Strategy',
+                description: 'Learn how to create successful business strategies that will drive your company forward.',
+                videoUrl: 'https://www.youtube.com/embed/zyRkXq_VHww' 
+            }
+        };
+
+        // Get the course data based on the URL parameter
+        if (course && courses[course]) {
+            const courseDetails = courses[course];
+            document.getElementById('course-title').innerText = courseDetails.title;
+            document.getElementById('course-description').innerText = courseDetails.description;
+            document.getElementById('course-video').src = courseDetails.videoUrl;
+            document.getElementById('start-course-btn').onclick = function() {
+                alert('You have started the course!');
+            };
+
+            // Load YouTube API
+            var tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            var firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+            let player;
+
+            // YouTube API callback function
+            function onYouTubeIframeAPIReady() {
+                player = new YT.Player('course-video', {
+                    events: {
+                        'onStateChange': onPlayerStateChange,
+                        'onReady': onPlayerReady
+                    }
+                });
+            }
+
+            // Listen for video state change
+            function onPlayerStateChange(event) {
+                if (event.data == YT.PlayerState.PLAYING) {
+                    // Track progress every second
+                    let interval = setInterval(function() {
+                        let currentTime = player.getCurrentTime();
+                        let duration = player.getDuration();
+                        let progress = (currentTime / duration) * 100;
+
+                        // Save progress in localStorage
+                        localStorage.setItem(course, progress);
+
+                        // Stop tracking when the video ends
+                        if (event.data == YT.PlayerState.ENDED) {
+                            clearInterval(interval);
+                        }
+                    }, 1000); // Update every second
+                }
+            }
+
+            // Update the progress when the page is loaded with saved progress from localStorage
+            const savedProgress = localStorage.getItem(course);
+            if (savedProgress) {
+                // Call a function to reflect the progress (not implemented in this page)
+                console.log(`Progress: ${savedProgress}%`);
+            }
+        } else {
+            document.getElementById('course-title').innerText = 'Course Not Found';
+            document.getElementById('course-description').innerText = 'Sorry, we could not find this course.';
+            document.getElementById('start-course-btn').disabled = true;
+        }
+
+        // Ready function for YouTube API
+        function onPlayerReady(event) {
+            // Optionally start the video if you want
+            // event.target.playVideo();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Dashboard - EduVibe</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo">EduVibe</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="courses.html">Courses</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="dashboard">
+        <h2>Your Progress</h2>
+
+        <!-- Course Progress Card -->
+        <div class="course-card" id="web-development-card">
+            <h3>Web Development</h3>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="web-development-progress"></div>
+            </div>
+            <p id="web-development-text">0% Complete</p>
+        </div>
+
+        <!-- Another Course Progress Card -->
+        <div class="course-card" id="ui-ux-design-card">
+            <h3>UI/UX Design</h3>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="ui-ux-design-progress"></div>
+            </div>
+            <p id="ui-ux-design-text">0% Complete</p>
+        </div>
+
+        <div class="course-card" id="business-strategy-card">
+            <h3>Business Strategy</h3>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="business-strategy-progress"></div>
+            </div>
+            <p id="business-strategy-text">0% Complete</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2024 EduVibe | All Rights Reserved</p>
+    </footer>
+
+    <script>
+        // Fetch progress from localStorage
+        function updateProgressBar(course, progress) {
+            if (progress !== null) {
+                document.getElementById(`${course}-progress`).style.width = `${progress}%`;
+                document.getElementById(`${course}-text`).innerText = `${Math.floor(progress)}% Complete`;
+            }
+        }
+
+        // Update progress bars from localStorage
+        updateProgressBar('web-development', localStorage.getItem('web-development'));
+        updateProgressBar('ui-ux-design', localStorage.getItem('ui-ux-design'));
+        updateProgressBar('business-strategy', localStorage.getItem('business-strategy'));
+    </script>
+</body>
+</html>
