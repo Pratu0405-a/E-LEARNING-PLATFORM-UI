@@ -1,7 +1,3 @@
-# E-LEARNING-PLATFORM-UI
-
----
-
 **Project Description: Front-End Design for E-Learning Platform**
 
 This project is a front-end implementation of a modern, interactive e-learning platform. The focus of this project was to create a visually appealing, user-friendly interface that integrates essential features such as course listings, progress tracking, and video embedding. Designed with a responsive layout, the platform ensures an engaging experience across multiple devices, from desktops to tablets and mobile phones.
@@ -54,11 +50,11 @@ This project is a front-end implementation of a modern, interactive e-learning p
 ---
 ### Outputs:
 
-![task4-1](https://github.com/user-attachments/assets/a9064f6f-667f-43c4-a92d-42eea2336890)
-![task4-2](https://github.com/user-attachments/assets/c1a9764d-e22a-4d56-bd55-022b50f16e03)
-![task4-3](https://github.com/user-attachments/assets/64339c9d-8b51-46f0-9922-cff921726979)
-![task4-4](https://github.com/user-attachments/assets/dac26bfe-b2be-4b19-8d36-39d2c35f7383)
-![task4-5](https://github.com/user-attachments/assets/f7a0870b-5b2e-445e-ba70-f9127abb5688)
+<img width="1899" height="1033" alt="Screenshot 2026-03-19 215227" src="https://github.com/user-attachments/assets/1bb0a1a6-3bf9-4591-999b-4e0cc5309925" />
+<img width="1907" height="1035" alt="Screenshot 2026-03-19 215237" src="https://github.com/user-attachments/assets/34075576-433a-45f2-9c9c-91064606d5dd" />
+<img width="1906" height="1035" alt="Screenshot 2026-03-19 215249" src="https://github.com/user-attachments/assets/acd99127-07b2-4070-84c5-8568fdb78a56" />
+<img width="1907" height="1028" alt="Screenshot 2026-03-19 215306" src="https://github.com/user-attachments/assets/a39cf6d9-d1c2-4e1f-a085-88772657a9cd" />
+<img width="1899" height="1037" alt="Screenshot 2026-03-19 215315" src="https://github.com/user-attachments/assets/b003bfac-cdf6-4a07-9852-b0c430ada0e6" />
 
 ----
 ### Conclusion:
