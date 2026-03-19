@@ -46,8 +46,13 @@
                 <button type="submit">Send Message →</button>
             </form>
 
-            <div id="successMessage" style="display: none;">
-                <p>✓ Your message has been sent! We'll get back to you soon.</p>
+            <!-- Thank You Message -->
+            <div id="successMessage" style="display:none; text-align:center; padding: 48px 24px;">
+                <div style="font-size: 64px; margin-bottom: 20px;">🎉</div>
+                <h3 style="font-family:'Playfair Display',serif; font-size:28px; color:#fff; margin-bottom:12px;">Thank You!</h3>
+                <p style="color:#9A9AB0; font-size:16px; line-height:1.7; margin-bottom:8px;">Your message has been received successfully.</p>
+                <p style="color:#9A9AB0; font-size:16px; line-height:1.7; margin-bottom:32px;">We'll get back to you within <strong style="color:#a89fff;">24 hours</strong>. 😊</p>
+                <a href="courses.html" style="display:inline-flex; align-items:center; gap:8px; padding:13px 28px; border-radius:10px; font-size:15px; font-weight:600; text-decoration:none; background:linear-gradient(135deg,#6C63FF,#FF6584); color:#fff; box-shadow:0 8px 25px rgba(108,99,255,0.4);">Explore Courses →</a>
             </div>
         </div>
     </section>
@@ -59,8 +64,9 @@
     <script>
         document.getElementById('contactForm').addEventListener('submit', function(event) {
             event.preventDefault();
+            // Hide form, show thank you message
+            document.getElementById('contactForm').style.display = 'none';
             document.getElementById('successMessage').style.display = 'block';
-            document.getElementById('contactForm').reset();
         });
     </script>
 </body>
