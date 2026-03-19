@@ -19,19 +19,29 @@
         </nav>
     </header>
 
-    <section class="course-detail" style="background: linear-gradient(160deg, #0D0D1A 0%, #1A1A2E 50%, #16213E 100%);">
-        <div class="section-tag" style="display:inline-block; margin-bottom:16px;">✦ Course</div>
-        <h2 id="course-title">Course Title</h2>
+    <section class="course-detail">
+        <div class="course-detail-inner">
 
-        <div class="video-container">
-            <iframe id="course-video" src="" frameborder="0"
-                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
+            <a href="courses.html" class="back-link">← Back to Courses</a>
+
+            <div class="section-tag" style="display:inline-block; margin-bottom:14px;">✦ Now Playing</div>
+            <h2 id="course-title">Course Title</h2>
+
+            <div class="video-container">
+                <iframe id="course-video" src="" frameborder="0"
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+            </div>
+
+            <div class="cd-info-box">
+                <div class="cd-info-text">
+                    <h4>About this Course</h4>
+                    <p id="course-description">Course description will appear here...</p>
+                </div>
+                <button id="start-course-btn">▶ Start Learning</button>
+            </div>
+
         </div>
-
-        <div id="course-description">Course description will appear here...</div>
-
-        <button id="start-course-btn">▶ Start Course</button>
     </section>
 
     <footer>
@@ -46,17 +56,17 @@
             'web-development': {
                 title: 'Web Development',
                 description: 'Learn web development from scratch, covering HTML, CSS, and JavaScript. Build real-world projects and master modern frameworks.',
-                videoUrl: 'https://www.youtube.com/embed/pQN-pnXPaVg'
+                videoUrl: 'https://www.youtube.com/embed/videoseries?list=PLZPZq0r_RZOPP5Yjt6IqgytMRY5uLt4y3'
             },
             'ui-ux-design': {
                 title: 'UI/UX Design',
                 description: 'Master the art of UI/UX design with hands-on projects and design principles. Learn Figma, user research, and prototyping.',
-                videoUrl: 'https://www.youtube.com/embed/c9Wg6Cb_YlU?si=DHcc85PBadZJi0So'
+                videoUrl: 'https://www.youtube.com/embed/c9Wg6Cb_YlU?si=OPCg93gfEfueNz0S'
             },
             'business-strategy': {
                 title: 'Business Strategy',
                 description: 'Learn how to create successful business strategies that will drive your company forward. From market analysis to execution.',
-                videoUrl: 'https://www.youtube.com/embed/zyRkXq_VHww'
+                videoUrl: 'https://www.youtube.com/embed/videoseries?list=PLZDZwPWTxRmHHEfJW_6orzDXS1pPeUkP9&si=CuIShQJFmNZs8_KG'
             }
         };
 
