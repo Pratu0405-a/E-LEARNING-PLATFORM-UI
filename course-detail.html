@@ -6,82 +6,189 @@
     <title>Course Details - EduVibe</title>
     <link rel="stylesheet" href="styles.css">
     <style>
+        body { overflow: hidden; height: 100vh; }
+
+        .course-detail {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 48px;
+            background: linear-gradient(160deg, #0D0D1A 0%, #1A1A2E 50%, #16213E 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-detail::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(108,99,255,0.14) 0%, transparent 65%);
+            z-index: 0; pointer-events: none;
+        }
+
+        .cd-inner {
+            position: relative; z-index: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* LEFT: thumbnail */
         .video-thumb {
             position: relative;
             width: 100%;
             aspect-ratio: 16/9;
-            border-radius: 16px;
+            border-radius: 14px;
             overflow: hidden;
             cursor: pointer;
-            margin-bottom: 28px;
             border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5), 0 0 40px rgba(108,99,255,0.25);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 35px rgba(108,99,255,0.2);
             background: #0D0D1A;
         }
+
         .video-thumb img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            transition: transform 0.4s ease, filter 0.4s ease;
+            width: 100%; height: 100%;
+            object-fit: cover; display: block;
+            transition: transform 0.4s ease, filter 0.3s ease;
         }
+
         .video-thumb:hover img {
-            transform: scale(1.03);
-            filter: brightness(0.7);
+            transform: scale(1.04);
+            filter: brightness(0.65);
         }
+
         .play-overlay {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0,0,0,0.35);
+            position: absolute; inset: 0;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            background: rgba(0,0,0,0.3);
             transition: background 0.3s ease;
         }
-        .video-thumb:hover .play-overlay {
-            background: rgba(0,0,0,0.55);
-        }
+
+        .video-thumb:hover .play-overlay { background: rgba(0,0,0,0.5); }
+
         .play-btn {
-            width: 80px;
-            height: 80px;
+            width: 68px; height: 68px;
             border-radius: 50%;
             background: linear-gradient(135deg, #6C63FF, #FF6584);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 8px 40px rgba(108,99,255,0.6);
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 8px 35px rgba(108,99,255,0.6);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
+
         .video-thumb:hover .play-btn {
             transform: scale(1.12);
-            box-shadow: 0 12px 50px rgba(108,99,255,0.8);
+            box-shadow: 0 12px 45px rgba(108,99,255,0.8);
         }
-        .play-btn svg {
-            width: 32px;
-            height: 32px;
-            fill: #fff;
-            margin-left: 4px;
+
+        .play-btn svg { width: 28px; height: 28px; fill: #fff; margin-left: 4px; }
+
+        .play-label { color: #fff; font-size: 14px; font-weight: 600; }
+        .play-sub { color: rgba(255,255,255,0.65); font-size: 11px; margin-top: 3px; }
+
+        /* RIGHT: info panel */
+        .cd-right {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
         }
-        .play-label {
+
+        .back-link {
+            display: inline-flex; align-items: center; gap: 6px;
+            text-decoration: none; color: var(--text-muted);
+            font-size: 13px; font-weight: 500;
+            padding: 7px 14px; border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+            align-self: flex-start;
+        }
+        .back-link:hover {
             color: #fff;
-            font-size: 15px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+            border-color: rgba(108,99,255,0.4);
+            background: rgba(108,99,255,0.08);
         }
-        .play-sub {
-            color: rgba(255,255,255,0.7);
-            font-size: 12px;
-            margin-top: 4px;
+
+        .cd-tag {
+            display: inline-block;
+            background: rgba(108,99,255,0.1);
+            border: 1px solid rgba(108,99,255,0.25);
+            color: #a89fff; font-size: 10px; font-weight: 700;
+            letter-spacing: 2.5px; text-transform: uppercase;
+            padding: 5px 14px; border-radius: 50px;
+            align-self: flex-start;
         }
-        .cd-progress-wrap { margin-top: 20px; }
-        .cd-progress-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
-        .cd-progress-header span { font-size:13px; color:#9A9AB0; font-weight:500; }
-        #progress-label { font-size:14px; font-weight:700; background:linear-gradient(135deg,#6C63FF,#FF6584); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
-        .cd-progress-bar-bg { background:rgba(255,255,255,0.07); border-radius:50px; height:8px; overflow:hidden; }
-        #progress-bar-fill { height:100%; width:0%; background:linear-gradient(135deg,#6C63FF,#FF6584); border-radius:50px; transition:width 1s ease; box-shadow:0 0 10px rgba(108,99,255,0.5); }
+
+        #course-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(22px, 2.8vw, 36px);
+            font-weight: 700; color: #fff; line-height: 1.2;
+            margin: 0;
+        }
+
+        .cd-info-box {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 14px;
+            padding: 20px 24px;
+            backdrop-filter: blur(12px);
+        }
+
+        .cd-about-label {
+            font-size: 11px; font-weight: 700; color: #a89fff;
+            letter-spacing: 1.5px; text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        #course-description {
+            font-size: 14px; color: #9A9AB0;
+            line-height: 1.7; margin: 0 0 16px;
+        }
+
+        /* Progress */
+        .cd-progress-header {
+            display: flex; justify-content: space-between;
+            margin-bottom: 7px;
+        }
+        .cd-progress-header span { font-size: 12px; color: #9A9AB0; }
+        #progress-label {
+            font-size: 13px; font-weight: 700;
+            background: linear-gradient(135deg,#6C63FF,#FF6584);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .cd-progress-bar-bg {
+            background: rgba(255,255,255,0.07);
+            border-radius: 50px; height: 7px; overflow: hidden;
+        }
+        #progress-bar-fill {
+            height: 100%; width: 0%;
+            background: linear-gradient(135deg,#6C63FF,#FF6584);
+            border-radius: 50px;
+            transition: width 0.8s ease;
+            box-shadow: 0 0 10px rgba(108,99,255,0.5);
+        }
+
+        #start-course-btn {
+            background: linear-gradient(135deg,#6C63FF,#FF6584);
+            color: #fff; padding: 13px 28px;
+            font-size: 15px; font-weight: 600;
+            border: none; border-radius: 10px;
+            cursor: pointer; transition: all 0.3s ease;
+            box-shadow: 0 8px 28px rgba(108,99,255,0.4);
+            font-family: 'Inter', sans-serif;
+            width: 100%;
+        }
+        #start-course-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 36px rgba(108,99,255,0.55);
+        }
     </style>
 </head>
 <body>
@@ -98,14 +205,9 @@
     </header>
 
     <section class="course-detail">
-        <div class="course-detail-inner">
+        <div class="cd-inner">
 
-            <a href="courses.html" class="back-link">← Back to Courses</a>
-
-            <div class="section-tag" style="display:inline-block; margin-bottom:14px;">✦ Now Playing</div>
-            <h2 id="course-title">Loading...</h2>
-
-            <!-- Thumbnail + Play button (opens YouTube in new tab) -->
+            <!-- LEFT: Video thumbnail -->
             <div class="video-thumb" id="video-thumb" onclick="playVideo()">
                 <img id="thumb-img" src="" alt="Course Thumbnail">
                 <div class="play-overlay">
@@ -117,22 +219,26 @@
                 </div>
             </div>
 
-            <!-- Info + progress -->
-            <div class="cd-info-box">
-                <div class="cd-info-text" style="flex:1; min-width:200px;">
-                    <h4>About this Course</h4>
+            <!-- RIGHT: Info -->
+            <div class="cd-right">
+                <a href="courses.html" class="back-link">← Back to Courses</a>
+                <div class="cd-tag">✦ Now Playing</div>
+                <h2 id="course-title">Loading...</h2>
+
+                <div class="cd-info-box">
+                    <div class="cd-about-label">About this Course</div>
                     <p id="course-description">Loading...</p>
-                    <div class="cd-progress-wrap">
-                        <div class="cd-progress-header">
-                            <span>Your Progress</span>
-                            <span id="progress-label">0% Complete</span>
-                        </div>
-                        <div class="cd-progress-bar-bg">
-                            <div id="progress-bar-fill"></div>
-                        </div>
+
+                    <div class="cd-progress-header">
+                        <span>Your Progress</span>
+                        <span id="progress-label">0% Complete</span>
+                    </div>
+                    <div class="cd-progress-bar-bg">
+                        <div id="progress-bar-fill"></div>
                     </div>
                 </div>
-                <button id="start-course-btn" onclick="playVideo()">&#9654; Start Learning</button>
+
+                <button id="start-course-btn">▶ Start Learning</button>
             </div>
 
         </div>
@@ -165,7 +271,7 @@
                 title: 'Business Strategy',
                 description: 'Learn how to create successful business strategies that drive your company forward. From market analysis to execution.',
                 youtubeUrl: 'https://www.youtube.com/playlist?list=PLZDZwPWTxRmHHEfJW_6orzDXS1pPeUkP9',
-                thumbnail: 'https://img.youtube.com/vi/6mJ9PVUVFKA/maxresdefault.jpg',
+                thumbnail: 'https://img.youtube.com/vi/o7ZnFSEMBSA/maxresdefault.jpg',
                 defaultProgress: 20
             }
         };
@@ -176,39 +282,28 @@
             document.title = cd.title + ' - EduVibe';
             document.getElementById('course-title').innerText = cd.title;
             document.getElementById('course-description').innerText = cd.description;
-            document.getElementById('thumb-img').src = cd.thumbnail;
 
-            // Load or set default progress
-            let progress = parseInt(localStorage.getItem(course));
-            if (isNaN(progress)) {
-                progress = cd.defaultProgress;
-                localStorage.setItem(course, progress);
-            }
+            // Load thumbnail — fallback to hqdefault if maxres not available
+            const img = document.getElementById('thumb-img');
+            img.src = cd.thumbnail;
+            img.onerror = function() {
+                this.src = cd.thumbnail.replace('maxresdefault', 'hqdefault');
+            };
+
+            // Load saved progress only — no auto increase
+            const saved = parseInt(localStorage.getItem(course));
+            const progress = isNaN(saved) ? cd.defaultProgress : saved;
+            if (isNaN(saved)) localStorage.setItem(course, progress);
             setProgress(progress);
 
-            // Play = open YouTube + animate progress
+            // Start Learning — opens YouTube, NO auto progress increase
+            const btn = document.getElementById('start-course-btn');
             window.playVideo = function () {
                 window.open(cd.youtubeUrl, '_blank');
-
-                const btn = document.getElementById('start-course-btn');
                 btn.innerText = '✓ Opened on YouTube';
                 btn.style.background = 'linear-gradient(135deg,#43E97B,#38F9D7)';
                 btn.style.color = '#0D0D1A';
-                btn.style.boxShadow = '0 8px 30px rgba(67,233,123,0.35)';
-
-                // Animate progress bar +20% as demo
-                let p = parseInt(localStorage.getItem(course)) || progress;
-                const target = Math.min(100, p + 20);
-                const interval = setInterval(function () {
-                    if (p >= target) {
-                        clearInterval(interval);
-                        localStorage.setItem(course, p);
-                        if (p >= 100) btn.innerText = '🎉 Complete!';
-                    } else {
-                        p++;
-                        setProgress(p);
-                    }
-                }, 40);
+                btn.style.boxShadow = '0 8px 28px rgba(67,233,123,0.35)';
             };
 
             function setProgress(pct) {
@@ -220,7 +315,8 @@
         } else {
             document.getElementById('course-title').innerText = 'Course Not Found';
             document.getElementById('course-description').innerText = 'Please go back and select a course.';
-            document.getElementById('video-thumb').style.display = 'none';
+            document.getElementById('video-thumb').style.opacity = '0.3';
+            document.getElementById('video-thumb').style.pointerEvents = 'none';
             const btn = document.getElementById('start-course-btn');
             btn.disabled = true;
             btn.style.opacity = '0.4';
