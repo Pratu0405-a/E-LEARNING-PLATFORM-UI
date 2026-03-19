@@ -27,12 +27,9 @@
         </div>
 
         <div class="dashboard-grid">
-            <!-- Web Development Card -->
-            <div class="course-card">
-                <h3>
-                    <span class="course-icon">💻</span>
-                    Web Development
-                </h3>
+
+            <div class="course-card" onclick="window.location='course-detail.html?course=web-development'" style="cursor:pointer;">
+                <h3><span class="course-icon">💻</span> Web Development</h3>
                 <div class="progress-bar-container">
                     <div class="progress-bar" id="web-development-progress"></div>
                 </div>
@@ -42,12 +39,8 @@
                 </div>
             </div>
 
-            <!-- UI/UX Design Card -->
-            <div class="course-card">
-                <h3>
-                    <span class="course-icon">🎨</span>
-                    UI/UX Design
-                </h3>
+            <div class="course-card" onclick="window.location='course-detail.html?course=ui-ux-design'" style="cursor:pointer;">
+                <h3><span class="course-icon">🎨</span> UI/UX Design</h3>
                 <div class="progress-bar-container">
                     <div class="progress-bar" id="ui-ux-design-progress"></div>
                 </div>
@@ -57,12 +50,8 @@
                 </div>
             </div>
 
-            <!-- Business Strategy Card -->
-            <div class="course-card">
-                <h3>
-                    <span class="course-icon">📈</span>
-                    Business Strategy
-                </h3>
+            <div class="course-card" onclick="window.location='course-detail.html?course=business-strategy'" style="cursor:pointer;">
+                <h3><span class="course-icon">📈</span> Business Strategy</h3>
                 <div class="progress-bar-container">
                     <div class="progress-bar" id="business-strategy-progress"></div>
                 </div>
@@ -71,6 +60,7 @@
                     <span class="progress-percent" id="business-strategy-text">0%</span>
                 </div>
             </div>
+
         </div>
     </section>
 
@@ -79,17 +69,27 @@
     </footer>
 
     <script>
-        function updateProgressBar(course, progress) {
-            if (progress !== null && progress !== '') {
-                const pct = Math.floor(parseFloat(progress));
-                document.getElementById(`${course}-progress`).style.width = `${pct}%`;
-                document.getElementById(`${course}-text`).innerText = `${pct}%`;
-            }
-        }
+        // Only reads from localStorage - NO auto increase
+        // Progress only updates when user clicks Start Learning on course page
+        const courses = ['web-development', 'ui-ux-design', 'business-strategy'];
 
-        updateProgressBar('web-development', localStorage.getItem('web-development'));
-        updateProgressBar('ui-ux-design', localStorage.getItem('ui-ux-design'));
-        updateProgressBar('business-strategy', localStorage.getItem('business-strategy'));
+        courses.forEach(function(course) {
+            const saved = parseInt(localStorage.getItem(course)) || 0;
+            const bar = document.getElementById(course + '-progress');
+            const label = document.getElementById(course + '-text');
+
+            // Smooth animate bar from 0 to saved value
+            let current = 0;
+            const interval = setInterval(function() {
+                if (current >= saved) {
+                    clearInterval(interval);
+                } else {
+                    current++;
+                    bar.style.width = current + '%';
+                    label.innerText = current + '%';
+                }
+            }, 15);
+        });
     </script>
 </body>
 </html>

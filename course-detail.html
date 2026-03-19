@@ -5,6 +5,84 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Course Details - EduVibe</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .video-thumb {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9;
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            margin-bottom: 28px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5), 0 0 40px rgba(108,99,255,0.25);
+            background: #0D0D1A;
+        }
+        .video-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease, filter 0.4s ease;
+        }
+        .video-thumb:hover img {
+            transform: scale(1.03);
+            filter: brightness(0.7);
+        }
+        .play-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.35);
+            transition: background 0.3s ease;
+        }
+        .video-thumb:hover .play-overlay {
+            background: rgba(0,0,0,0.55);
+        }
+        .play-btn {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6C63FF, #FF6584);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 40px rgba(108,99,255,0.6);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 16px;
+        }
+        .video-thumb:hover .play-btn {
+            transform: scale(1.12);
+            box-shadow: 0 12px 50px rgba(108,99,255,0.8);
+        }
+        .play-btn svg {
+            width: 32px;
+            height: 32px;
+            fill: #fff;
+            margin-left: 4px;
+        }
+        .play-label {
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        }
+        .play-sub {
+            color: rgba(255,255,255,0.7);
+            font-size: 12px;
+            margin-top: 4px;
+        }
+        .cd-progress-wrap { margin-top: 20px; }
+        .cd-progress-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+        .cd-progress-header span { font-size:13px; color:#9A9AB0; font-weight:500; }
+        #progress-label { font-size:14px; font-weight:700; background:linear-gradient(135deg,#6C63FF,#FF6584); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+        .cd-progress-bar-bg { background:rgba(255,255,255,0.07); border-radius:50px; height:8px; overflow:hidden; }
+        #progress-bar-fill { height:100%; width:0%; background:linear-gradient(135deg,#6C63FF,#FF6584); border-radius:50px; transition:width 1s ease; box-shadow:0 0 10px rgba(108,99,255,0.5); }
+    </style>
 </head>
 <body>
     <header>
@@ -25,20 +103,36 @@
             <a href="courses.html" class="back-link">← Back to Courses</a>
 
             <div class="section-tag" style="display:inline-block; margin-bottom:14px;">✦ Now Playing</div>
-            <h2 id="course-title">Course Title</h2>
+            <h2 id="course-title">Loading...</h2>
 
-            <div class="video-container">
-                <iframe id="course-video" src="" frameborder="0"
-                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen></iframe>
+            <!-- Thumbnail + Play button (opens YouTube in new tab) -->
+            <div class="video-thumb" id="video-thumb" onclick="playVideo()">
+                <img id="thumb-img" src="" alt="Course Thumbnail">
+                <div class="play-overlay">
+                    <div class="play-btn">
+                        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+                    </div>
+                    <div class="play-label">Watch on YouTube</div>
+                    <div class="play-sub">Opens in a new tab</div>
+                </div>
             </div>
 
+            <!-- Info + progress -->
             <div class="cd-info-box">
-                <div class="cd-info-text">
+                <div class="cd-info-text" style="flex:1; min-width:200px;">
                     <h4>About this Course</h4>
-                    <p id="course-description">Course description will appear here...</p>
+                    <p id="course-description">Loading...</p>
+                    <div class="cd-progress-wrap">
+                        <div class="cd-progress-header">
+                            <span>Your Progress</span>
+                            <span id="progress-label">0% Complete</span>
+                        </div>
+                        <div class="cd-progress-bar-bg">
+                            <div id="progress-bar-fill"></div>
+                        </div>
+                    </div>
                 </div>
-                <button id="start-course-btn">▶ Start Learning</button>
+                <button id="start-course-btn" onclick="playVideo()">&#9654; Start Learning</button>
             </div>
 
         </div>
@@ -52,74 +146,85 @@
         const urlParams = new URLSearchParams(window.location.search);
         const course = urlParams.get('course');
 
-        const courses = {
+        const courseData = {
             'web-development': {
                 title: 'Web Development',
                 description: 'Learn web development from scratch, covering HTML, CSS, and JavaScript. Build real-world projects and master modern frameworks.',
-                videoUrl: 'https://www.youtube.com/embed/videoseries?list=PLZPZq0r_RZOPP5Yjt6IqgytMRY5uLt4y3'
+                youtubeUrl: 'https://www.youtube.com/playlist?list=PLZPZq0r_RZOPP5Yjt6IqgytMRY5uLt4y3',
+                thumbnail: 'https://img.youtube.com/vi/EiNiSFIPIQE/maxresdefault.jpg',
+                defaultProgress: 35
             },
             'ui-ux-design': {
                 title: 'UI/UX Design',
                 description: 'Master the art of UI/UX design with hands-on projects and design principles. Learn Figma, user research, and prototyping.',
-                videoUrl: 'https://www.youtube.com/embed/c9Wg6Cb_YlU?si=OPCg93gfEfueNz0S'
+                youtubeUrl: 'https://youtu.be/c9Wg6Cb_YlU',
+                thumbnail: 'https://img.youtube.com/vi/c9Wg6Cb_YlU/maxresdefault.jpg',
+                defaultProgress: 60
             },
             'business-strategy': {
                 title: 'Business Strategy',
-                description: 'Learn how to create successful business strategies that will drive your company forward. From market analysis to execution.',
-                videoUrl: 'https://www.youtube.com/embed/videoseries?list=PLZDZwPWTxRmHHEfJW_6orzDXS1pPeUkP9&si=CuIShQJFmNZs8_KG'
+                description: 'Learn how to create successful business strategies that drive your company forward. From market analysis to execution.',
+                youtubeUrl: 'https://www.youtube.com/playlist?list=PLZDZwPWTxRmHHEfJW_6orzDXS1pPeUkP9',
+                thumbnail: 'https://img.youtube.com/vi/6mJ9PVUVFKA/maxresdefault.jpg',
+                defaultProgress: 20
             }
         };
 
-        if (course && courses[course]) {
-            const courseDetails = courses[course];
-            document.getElementById('course-title').innerText = courseDetails.title;
-            document.getElementById('course-description').innerText = courseDetails.description;
-            document.getElementById('course-video').src = courseDetails.videoUrl;
-            document.getElementById('start-course-btn').onclick = function() {
-                alert('You have started the course! Good luck!');
+        const cd = courseData[course];
+
+        if (course && cd) {
+            document.title = cd.title + ' - EduVibe';
+            document.getElementById('course-title').innerText = cd.title;
+            document.getElementById('course-description').innerText = cd.description;
+            document.getElementById('thumb-img').src = cd.thumbnail;
+
+            // Load or set default progress
+            let progress = parseInt(localStorage.getItem(course));
+            if (isNaN(progress)) {
+                progress = cd.defaultProgress;
+                localStorage.setItem(course, progress);
+            }
+            setProgress(progress);
+
+            // Play = open YouTube + animate progress
+            window.playVideo = function () {
+                window.open(cd.youtubeUrl, '_blank');
+
+                const btn = document.getElementById('start-course-btn');
+                btn.innerText = '✓ Opened on YouTube';
+                btn.style.background = 'linear-gradient(135deg,#43E97B,#38F9D7)';
+                btn.style.color = '#0D0D1A';
+                btn.style.boxShadow = '0 8px 30px rgba(67,233,123,0.35)';
+
+                // Animate progress bar +20% as demo
+                let p = parseInt(localStorage.getItem(course)) || progress;
+                const target = Math.min(100, p + 20);
+                const interval = setInterval(function () {
+                    if (p >= target) {
+                        clearInterval(interval);
+                        localStorage.setItem(course, p);
+                        if (p >= 100) btn.innerText = '🎉 Complete!';
+                    } else {
+                        p++;
+                        setProgress(p);
+                    }
+                }, 40);
             };
 
-            var tag = document.createElement('script');
-            tag.src = "https://www.youtube.com/iframe_api";
-            var firstScriptTag = document.getElementsByTagName('script')[0];
-            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-            let player;
-
-            function onYouTubeIframeAPIReady() {
-                player = new YT.Player('course-video', {
-                    events: {
-                        'onStateChange': onPlayerStateChange,
-                        'onReady': onPlayerReady
-                    }
-                });
+            function setProgress(pct) {
+                const p = Math.min(100, Math.round(pct));
+                document.getElementById('progress-bar-fill').style.width = p + '%';
+                document.getElementById('progress-label').innerText = p + '% Complete';
             }
 
-            function onPlayerStateChange(event) {
-                if (event.data == YT.PlayerState.PLAYING) {
-                    let interval = setInterval(function() {
-                        let currentTime = player.getCurrentTime();
-                        let duration = player.getDuration();
-                        let progress = (currentTime / duration) * 100;
-                        localStorage.setItem(course, progress);
-                        if (event.data == YT.PlayerState.ENDED) {
-                            clearInterval(interval);
-                        }
-                    }, 1000);
-                }
-            }
-
-            function onPlayerReady(event) {}
-
-            const savedProgress = localStorage.getItem(course);
-            if (savedProgress) {
-                console.log(`Saved progress: ${Math.floor(savedProgress)}%`);
-            }
         } else {
             document.getElementById('course-title').innerText = 'Course Not Found';
-            document.getElementById('course-description').innerText = 'Sorry, we could not find this course. Please return to the courses page.';
-            document.getElementById('start-course-btn').disabled = true;
-            document.getElementById('start-course-btn').style.opacity = '0.5';
+            document.getElementById('course-description').innerText = 'Please go back and select a course.';
+            document.getElementById('video-thumb').style.display = 'none';
+            const btn = document.getElementById('start-course-btn');
+            btn.disabled = true;
+            btn.style.opacity = '0.4';
+            btn.style.cursor = 'not-allowed';
         }
     </script>
 </body>
